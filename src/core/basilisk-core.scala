@@ -1,13 +1,13 @@
 package basilisk
 
-import contingency.*
-import guillotine.*
-import fulminate.*
-import rudiments.*, workingDirectories.default
-import monotonous.*, alphabets.base64.standard
-import symbolism.*
-import gossamer.*
 import anticipation.*
+import contingency.*
+import fulminate.*
+import gossamer.*
+import guillotine.*
+import monotonous.*, alphabets.base64.standard
+import rudiments.*, workingDirectories.default
+import symbolism.*
 
 case class IrohError() extends Error(m"IROH error")
 
