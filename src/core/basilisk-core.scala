@@ -27,8 +27,9 @@ class IrohNode():
   def create(): IrohDoc logs IrohEvent raises IrohError =
     tend:
       case ExecError(_, _, _) => IrohError()
-    .within:
-      sh"iroh doc new".exec[IrohDoc]()
+
+    . within:
+        sh"iroh doc new".exec[IrohDoc]()
 
 object Iroh:
   def service[ResultType](lambda: IrohNode ?=> ResultType): ResultType logs IrohEvent =
@@ -50,16 +51,19 @@ case class IrohDoc(id: Text):
     tend:
       case ExecError(_, _, _)    => IrohError()
       case SerializationError(_) => IrohError()
-    .within:
-      sh"iroh doc set $key".exec[Text]().deserialize[Base64]
+
+    . within:
+        sh"iroh doc set $key".exec[Text]().deserialize[Base64]
 
   def update(key: Text, data: Bytes): Unit logs IrohEvent raises IrohError =
     tend:
       case ExecError(_, _, _) => IrohError()
-    .within(sh"iroh doc get $key ${data.serialize[Base64]}".exec[Unit]())
+
+    . within(sh"iroh doc get $key ${data.serialize[Base64]}".exec[Unit]())
 
   def share(writable: Boolean): IrohTicket logs IrohEvent raises IrohError =
     val mode = if writable then t"write" else t"read"
     tend:
       case ExecError(_, _, _) => IrohError()
-    .within(sh"iroh doc share -d $id $mode".exec[IrohTicket]())
+
+    . within(sh"iroh doc share -d $id $mode".exec[IrohTicket]())
